@@ -115,7 +115,7 @@
     <!-- with thanks to https://codepen.io/gene7299/pen/eJeoPq -->
     <div id="clock">
         <svg id="clockSvg" viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid meet">
-            <circle id="outerCircle" cx="500" cy="500" r="250" />
+	    <!-- <circle id="outerCircle" cx="500" cy="500" r="250" /> -->
             <circle id="innerCircle" cx="500" cy="500" r="100" />
 
             <line id="minuteHand" x1="500" y1="400" x2="500" y2="150" />
@@ -171,6 +171,7 @@
         const hour = document.querySelector('#hourHand');
         const tildeWrapper = document.querySelector('#tildeWrapper');
         const ticks = document.querySelector('#ticks');
+        const beats = document.querySelector('#beats');
 
         // Start the animations "in the past" so they line up with current time
         minute.style.animationDelay = `-${minuteElapsed}s`;
