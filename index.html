@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>emfclock</title>
+
+    <link rel="stylesheet" href="style.css">
+    <style>
+        :root {
+            --background-color: white;
+            --text-color: black;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --background-color: black;
+                --text-color: white;
+            }
+        }
+
+        body {
+            margin: 0px auto;
+            text-align: center;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+
+        #clock {
+            width: min(92vmin, 1000px);
+            margin: 0 auto;
+        }
+
+        #clock svg {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        #outerCircle {
+            stroke: var(--text-color);
+            stroke-width: 10px;
+            fill: none;
+        }
+
+        #innerCircle {
+            stroke: var(--text-color);
+            stroke-width: 10px;
+            fill: none;
+        }
+
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+
+        #hourHand {
+            fill: none;
+            stroke: var(--text-color);
+            stroke-width: 10px;
+            stroke-miterlimit: 10;
+            stroke-linecap: round;
+
+            transform-origin: 500px 500px;
+            animation: spin 43200s linear infinite;
+        }
+
+        #minuteHand {
+            fill: none;
+            stroke: var(--text-color);
+            stroke-width: 10px;
+            stroke-miterlimit: 10;
+            stroke-linecap: round;
+
+            transform-origin: 500px 500px;
+            animation: spin 3600s linear infinite;
+        }
+
+        #tilde {
+            transform-origin: 50% 50%;
+            transform-box: fill-box;
+            transform: translate(395px, 315px) scale(2.0);
+            fill: var(--text-color);
+        }
+
+        #tildeWrapper {
+            transform-origin: 50% 50%;
+            animation: spin 60s linear infinite;
+        }
+
+        #beats {
+            font: bold 50px Raleway;
+            fill: var(--text-color);
+            dominant-baseline: middle;
+            text-anchor: middle;
+        }
+
+        #hour-tick {
+            stroke: black;
+            stroke-width: 10px;
+            stroke-linecap: round;
+        }
+
+    </style>
+</head>
+
+<body>
+    <!-- with thanks to https://codepen.io/gene7299/pen/eJeoPq -->
+    <div id="clock">
+        <svg id="clockSvg" viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid meet">
+            <circle id="outerCircle" cx="500" cy="500" r="250" />
+            <circle id="innerCircle" cx="500" cy="500" r="100" />
+
+            <line id="minuteHand" x1="500" y1="400" x2="500" y2="150" />
+            <line id="hourHand" x1="500" y1="400" x2="500" y2="250" />
+
+            <g id="tildeWrapper">
+                <path id="tilde"
+                    d="M82.07,191.78l8.18,5.38c3.28-4.33,5.97-6.55,8.98-6.41,3.66,0,9.61,6.29,16.52,6.29s11.69-5.15,16.14-13.68l-8.07-5.38c-3.51,5.15-6.2,6.55-9,6.55-4.68,0-11.11-6.19-17.54-6.19-5.97,0-10.88,4.09-15.2,13.45Z" />
+            </g>
+
+            <g id="ticks">
+                <defs>
+                    <line id="hour-tick" 
+                        x1="500" y1="250" 
+                        x2="500" y2="258" />
+                </defs>
+
+                <use href="#hour-tick" transform="rotate(0 500 500)"/>
+                <use href="#hour-tick" transform="rotate(30 500 500)"/>
+                <use href="#hour-tick" transform="rotate(60 500 500)"/>
+                <use href="#hour-tick" transform="rotate(90 500 500)"/>
+                <use href="#hour-tick" transform="rotate(120 500 500)"/>
+                <use href="#hour-tick" transform="rotate(150 500 500)"/>
+                <use href="#hour-tick" transform="rotate(180 500 500)"/>
+                <use href="#hour-tick" transform="rotate(210 500 500)"/>
+                <use href="#hour-tick" transform="rotate(240 500 500)"/>
+                <use href="#hour-tick" transform="rotate(270 500 500)"/>
+                <use href="#hour-tick" transform="rotate(300 500 500)"/>
+                <use href="#hour-tick" transform="rotate(330 500 500)"/>
+            </g>
+
+            <text id="beats" x="500" y="500">.1000</text>
+        </svg>
+    </div>
+
+    <div id="nav">
+        <a href="index.html"><button class="selected">Variant One</button></a>
+        <a href="2.html"><button>Variant Two</button></a>
+    </div>
+
+    <script type="text/javascript">
+        const now = new Date();
+        const ms = now.getMilliseconds();
+        const s = now.getSeconds();
+        const m = now.getMinutes() + (s / 60);
+        const h = (now.getHours() % 12) + m / 60;
+
+        const minuteElapsed = m * 60;
+        const hourElapsed = h * 3600;
+        const secondElapsed = s + ms / 1000;
+
+        const minute = document.querySelector('#minuteHand');
+        const hour = document.querySelector('#hourHand');
+        const tildeWrapper = document.querySelector('#tildeWrapper');
+        const ticks = document.querySelector('#ticks');
+
+        // Start the animations "in the past" so they line up with current time
+        minute.style.animationDelay = `-${minuteElapsed}s`;
+        hour.style.animationDelay = `-${hourElapsed}s`;
+        tildeWrapper.style.animationDelay = `-${secondElapsed}s`;
+
+        function internetTime(dt) {
+            return Math.floor((((dt.getUTCHours() + 1) % 24) + dt.getUTCMinutes() / 60 + dt.getUTCSeconds() / 3600) * 1000 / 24);
+        }
+
+        tildeWrapper.style.display = "inline";
+        beats.style.display = "none";
+        ticks.style.display = "none";
+
+        document.addEventListener('keyup', (e) => {
+            if (e.key == 't') {
+                ticks.style.display = ticks.style.display == "none" ? "inline" : "none";
+            }
+        });
+        
+        const clockSvg = document.querySelector('#clockSvg');
+        clockSvg.addEventListener("click", (e) => {
+            if (tildeWrapper.style.display == "inline") {
+                tildeWrapper.style.display = "none";
+                beats.style.display = "inline";
+            } else {
+                tildeWrapper.style.display = "inline";
+                beats.style.display = "none";
+            }
+        });
+
+        function update() {
+            const rightNow = new Date();
+            const currentBeat = internetTime(rightNow);
+            beats.textContent = `.${currentBeat}`;
+        };
+
+        update();
+        setInterval(update, 1000);
+    </script>
+</body>
+
+</html>

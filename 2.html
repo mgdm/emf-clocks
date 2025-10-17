@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>emfclock</title>
+
+    <link rel="stylesheet" href="style.css">
+    <style>
+        :root {
+            --background-color: white;
+            --text-color: #AFC944;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --background-color: black;
+                --text-color: #528329;
+            }
+        }
+
+        body {
+            margin: 0px auto;
+            text-align: center;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+
+        #clock {
+            width: min(92vmin, 1000px);
+            margin: 0 auto;
+        }
+
+        #clock svg {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        #innerCircle {
+            stroke: var(--text-color);
+            stroke-width: 10px;
+            fill: none;
+        }
+
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+
+        #hourHand {
+            fill: var(--text-color);
+            /* stroke: var(--text-color); */
+
+            transform-origin: 50% 50%;
+            transform: scale(8.0) rotate(180deg) translate(488px, 511px);
+        }
+
+        #hourWrapper {
+            transform-origin: 50% 50%;
+            animation: spin 43200s linear infinite;
+        }
+
+        #minuteHand {
+            fill: var(--text-color);
+            /* stroke: var(--text-color); */
+
+            transform-origin: 50% 50%;
+            transform: scale(8.0) translate(488px, 460px);
+        }
+
+        #minuteWrapper {
+            transform-origin: 50% 50%;
+            animation: spin 3600s linear infinite;
+        }
+
+        #tilde {
+            transform-origin: 50% 50%;
+            transform-box: fill-box;
+            transform: translate(395px, 315px) scale(2.0);
+            fill: var(--text-color);
+        }
+
+        #tildeWrapper {
+            transform-origin: 50% 50%;
+            animation: spin 60s linear infinite;
+        }
+
+        #beats {
+            font: bold 50px Raleway;
+            fill: var(--text-color);
+            dominant-baseline: middle;
+            text-anchor: middle;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- with thanks to https://codepen.io/gene7299/pen/eJeoPq -->
+    <div id="clock">
+        <svg id="clockSvg" viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid meet">
+            <circle id="innerCircle" cx="500" cy="500" r="100" />
+
+            <g id="hourWrapper">
+                <path id="hourHand" d="m 11.041982,1.4639841 c 0.0714,0.20373 0.12965,0.64607 0.18256,0.76248 0.12171,0.26723 -0.1217,4.32859 -0.18785,4.93184 -0.0662,0.60325 0.71967,2.22779 0.88106,2.51089 0.1614,0.28046 -0.20373,1.3414399 -0.34396,1.4816699 -0.14022,0.14023 -0.13493,0.7911 -0.20902,1.07685 -0.16668,0.64029 -1.6086605,2.42888 -2.1484105,2.63525 -0.0873,0.0344 -0.78581,0.0185 -1.098023,0.20109 -0.314854,0.18256 -2.870729,0.09 -3.122084,-0.0529 -0.251354,-0.14288 -1.902354,-0.57679 -2.600854,-0.69586 -0.164041,-0.0291 -0.433916,-0.23547 -0.748771,-0.53181 v 1.32292 c 1.098021,0.39158 1.849438,1.00806 2.225146,1.19062 0.378354,0.18521 0.669396,0.55034 0.804334,1.07157 0.11377,0.44185 -2.061105,1.47902 -3.026834,2.07962 v 2.32304 c 0.923396,-0.96573 2.701396,-2.35743 2.947459,-2.50031 0.328083,-0.1905 3.204104,-1.84944 3.751787,-1.84944 0.54769,0 0.16405,1.75419 0.0926,2.16959 -0.0688,0.41539 0.43921,3.06916 0.16139,3.23056 -0.14816,0.0847 -0.20372,0.71437 -0.22225,1.32556 h 1.7277305 c 0.0609,-0.32544 0.14023,-0.62442 0.27517,-0.65617 0.15346,-0.0344 0.45773,0.30428 0.71702,0.65617 h 1.28588 c -0.21167,-0.26723 -0.41805,-0.50271 -0.46567,-0.54769 -0.10319,-0.10318 -0.83873,-0.68262 -0.96044,-1.15358 -0.12171,-0.46831 -0.84402,-1.21973 -0.9842505,-1.35996 -0.14023,-0.14023 -0.0423,-2.75431 0.034403,-2.96862 0.20108,-0.56357 0.8546,-1.3679 0.8546,-1.651 0,-0.28311 1.182689,-1.15094 1.55575,-1.15094 0.37306,0 1.02394,1.79123 1.65365,2.27012 0.50271,0.381 1.41287,2.08228 1.60073,2.27013 0.568848,0.56885 0.664098,2.78077 0.664098,3.37079 0,0.21696 -0.037,0.55827 -0.0847,0.91811 h 1.092729 c 0.0794,-0.40482 0.13759,-0.7673 0.16404,-0.88371 0.0661,-0.29369 -0.14816,-1.86267 0,-2.01084 0.148171,-0.14816 1.50019,0.0529 2.07698,0.0529 0.5768,0 1.74361,-0.5715 1.915591,-0.508 0.439209,0.1614 0.455079,0.70908 1.166809,1.25942 0.22754,0.17462 0.71173,0.40746 1.27529,0.64029 v -0.59267 c -0.77523,-0.52123 -1.28323,-1.89706 -1.20914,-2.09814 0.0265,-0.0714 0.53975,-0.47625 1.20914,-1.00807 v -1.19062 c -0.93662,0.66146 -2.60614,1.34408 -3.01889,1.58221 -0.51065,0.29368 -2.75696,-0.29634 -3.21734,-0.56357 -0.46037,-0.26458 -2.600849,-2.98714 -2.934229,-3.72533 -0.269869,-0.59531 -0.293681,-3.13531 -0.293681,-3.47133 0,-0.33602 0.320141,-1.16946 0.61647,-1.33879 0.296341,-0.17198 2.94746,0.81227 3.51103,1.1377 0.56356,0.32544 0.24077,1.80975 0.56356,2.1299 0.32279,0.32279 0.77258,0.93663 0.93927,1.03188 0.16669,0.0952 0.18785,0.45508 0.28046,0.45508 0.0926,0 0.0794,-0.6694 0.0794,-0.85725 0,-0.18786 -0.37835,-0.52652 -0.69585,-0.70908 -0.3175,-0.18257 -0.37042,-1.83621 -0.254,-1.90236 0.11641,-0.0661 0.39423,0 0.76464,0.21431 0.36777,0.21167 1.24619,0.60325 1.82298,0.60325 0.57679,0 0.34925,-0.34925 0,-0.34925 -0.34925,0 -1.65629,-0.8255 -1.84943,-0.93927 -0.193148,-0.11112 -0.91017,-0.66939 -1.38907,-0.60325 -0.47889,0.0661 -2.04258,-1.1800399 -2.64583,-1.2990999 -0.603248,-0.12171 -0.804328,-0.83079 -0.804328,-1.05833 0,-0.22755 -1.3335,-1.16682 -1.40759,-1.40759 -0.0741,-0.24077 0.0741,-2.60614 0.18786,-2.71991 0.11377,-0.11378 -0.0926,-0.56357 0.41539,-1.40759 0.24342,-0.40216 0.69321,-0.83079 1.09802,-1.16681"/>
+            </g>
+
+            <g id="minuteWrapper">
+                <path id="minuteHand" d="M 23.406883,11.037418 V 8.7064379 l -3.55864,2.1140201 v -6.75746 h -2.0029 v 7.94808 l -4.58523,2.72521 V 4.062998 h -2.00289 V 9.4102279 L 1.867156,4.062998 H 1.107802 v 1.87325 l 10.149421,5.78115 v 7.81579 l -3.4766301,-1.97909 v -4.99004 h -0.0132 l 0.0132,-0.0238 L 1.107802,8.7408379 v 2.3045201 l 4.6699009,2.65907 v 2.70668 L 1.107802,13.752048 v 2.30452 l 10.149421,5.78115 v 4.57993 c -0.452589,0.452383 1.899307,1.223094 2.00289,-0.008 v -9.35302 l 10.14942,-6.02986 z"/>
+            </g>
+
+            <g id="tildeWrapper">
+                <path id="tilde"
+                    d="M82.07,191.78l8.18,5.38c3.28-4.33,5.97-6.55,8.98-6.41,3.66,0,9.61,6.29,16.52,6.29s11.69-5.15,16.14-13.68l-8.07-5.38c-3.51,5.15-6.2,6.55-9,6.55-4.68,0-11.11-6.19-17.54-6.19-5.97,0-10.88,4.09-15.2,13.45Z" />
+            </g>
+
+            <text id="beats" x="500" y="500">.1000</text>
+        </svg>
+    </div>
+
+    <div id="nav">
+        <a href="index.html"><button>Variant One</button></a>
+        <a href="2.html"><button class="selected">Variant Two</button></a>
+    </div>
+
+    <script type="text/javascript">
+        const now = new Date();
+        const ms = now.getMilliseconds();
+        const s = now.getSeconds();
+        const m = now.getMinutes() + (s / 60);
+        const h = (now.getHours() % 12) + m / 60;
+
+        const minuteElapsed = m * 60;
+        const hourElapsed = h * 3600;
+        const secondElapsed = s + ms / 1000;
+
+        const minute = document.querySelector('#minuteWrapper');
+        const hour = document.querySelector('#hourWrapper');
+        const tildeWrapper = document.querySelector('#tildeWrapper');
+
+        // Start the animations "in the past" so they line up with current time
+        minute.style.animationDelay = `-${minuteElapsed}s`;
+        hour.style.animationDelay = `-${hourElapsed}s`;
+        tildeWrapper.style.animationDelay = `-${secondElapsed}s`;
+
+        function internetTime(dt) {
+            return Math.floor((((dt.getUTCHours() + 1) % 24) + dt.getUTCMinutes() / 60 + dt.getUTCSeconds() / 3600) * 1000 / 24);
+        }
+
+        tildeWrapper.style.display = "inline";
+        beats.style.display = "none";
+        
+        const clockSvg = document.querySelector('#clockSvg');
+        clockSvg.addEventListener("click", (e) => {
+            if (tildeWrapper.style.display == "inline") {
+                tildeWrapper.style.display = "none";
+                beats.style.display = "inline";
+            } else {
+                tildeWrapper.style.display = "inline";
+                beats.style.display = "none";
+            }
+        });
+
+        function update() {
+            const rightNow = new Date();
+            const currentBeat = internetTime(rightNow);
+            beats.textContent = `.${currentBeat}`;
+        };
+
+        update();
+        setInterval(update, 1000);
+    </script>
+</body>
+
+</html>
