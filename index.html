@@ -182,24 +182,24 @@
             return Math.floor((((dt.getUTCHours() + 1) % 24) + dt.getUTCMinutes() / 60 + dt.getUTCSeconds() / 3600) * 1000 / 24);
         }
 
-        tildeWrapper.style.display = "inline";
-        beats.style.display = "none";
-        ticks.style.display = "none";
+        tildeWrapper.style.visibility = "visible";
+        beats.style.visibility = "hidden";
+        ticks.style.visibility = "hidden";
 
         document.addEventListener('keyup', (e) => {
             if (e.key == 't') {
-                ticks.style.display = ticks.style.display == "none" ? "inline" : "none";
+                ticks.style.visibility = ticks.style.visibility == "hidden" ? "visible" : "hidden";
             }
         });
         
         const clockSvg = document.querySelector('#clockSvg');
         clockSvg.addEventListener("click", (e) => {
-            if (tildeWrapper.style.display == "inline") {
-                tildeWrapper.style.display = "none";
-                beats.style.display = "inline";
+            if (tildeWrapper.style.visibility == "visible") {
+                tildeWrapper.style.visibility = "hidden";
+                beats.style.visibility = "visible";
             } else {
-                tildeWrapper.style.display = "inline";
-                beats.style.display = "none";
+                tildeWrapper.style.visibility = "visible";
+                beats.style.visibility = "hidden";
             }
         });
 
